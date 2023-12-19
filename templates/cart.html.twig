@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% set products = constant('App\\Controller\\ProductsController::PRODUCTS_ROUTE') %}
+    {% if order == null or order.orderProducts.isEmpty() %}
+        <div>Warenkorb ist leer. <a href="{{ path(products) }}">Zurück zur Warenliste</a></div>
+    {% else %}
+        {% set cart = constant('App\\Controller\\CartController::CART_ROUTE') %}
+        {% set confirmCart = constant('App\\Controller\\WorkflowController::CONFIRM_CART_ROUTE') %}
+        {% set addProduct = constant('App\\Controller\\ProductsController::ADD_PRODUCT_ROUTE') %}
+        {% set removeProduct = constant('App\\Controller\\ProductsController::REMOVE_PRODUCT_ROUTE') %}
+
+        <div class="products">
+            {% for orderProduct in order.orderProducts %}
+                <div class="product">
+                    <div class="product__content">
+                        <span class="product__title">{{ orderProduct.product.name }}</span>
+                    </div>
+                    <div class="product__menu">
+                        <form action="{{ path(removeProduct, {productId: orderProduct.product.id}) }}" method="post">
+                            <input type="hidden" name="backUrl" value="{{ cart }}">
+                            <button class="product__button" type="submit">-</button>
+                        </form>
+                        <div class="product__quantity">{{ orderProduct.quantity }}</div>
+                        <form action="{{ path(addProduct, {productId: orderProduct.product.id}) }}" method="post">
+                            <input type="hidden" name="backUrl" value="{{ cart }}">
+                            <button class="product__button" type="submit">+</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div>
+            <form method="post" action="{{ path(confirmCart, {orderId: order.id}) }}">
+                <button type="submit">Bestellen</button>
+            </form>
+        </div>
+        <div class="home-link">
+            <a href="{{ path(products) }}">Zurück zur Warenliste</a>
+        </div>
+    {% endif %}
+{% endblock %}
