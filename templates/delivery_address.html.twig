@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% set products = constant('App\\Controller\\ProductsController::PRODUCTS_ROUTE') %}
+
+    {{ form_start(form) }}
+    <div>
+        {{ form_errors(form) }}
+    </div>
+
+    <div class="address__field">
+        {{ form_row(form.userName) }}
+    </div>
+    <div class="address__field">
+        {{ form_row(form.userAddress) }}
+    </div>
+    <div class="address__field">
+        {{ form_row(form.userPhone) }}
+    </div>
+    <div class="address__field">
+        {{ form_row(form.userEmail) }}
+    </div>
+    {% if form.userTaxNumber is defined %}
+        <div class="address__field">
+            {{ form_row(form.userTaxNumber) }}
+        </div>
+    {% endif %}
+    <div class="address__field">
+        {{ form_row(form.saveAddress) }}
+    </div>
+
+    {{ form_end(form) }}
+
+    <div class="home-link">
+        <a href="{{ path(products) }}">Zurück zur Warenliste</a>
+    </div>
+{% endblock %}
