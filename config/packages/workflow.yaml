@@ -1,2 +1,28 @@
 framework:
-    workflows: null
+    workflows:
+        order:
+            type: 'state_machine'
+            marking_store:
+                type: 'method'
+                property: 'status'
+            supports:
+                - App\Entity\Order
+            initial_marking: !php/const App\Workflow\OrderStatus::ShoppingCart
+            places:
+                - !php/const App\Workflow\OrderStatus::ShoppingCart
+                - !php/const App\Workflow\OrderStatus::DeliveryAddress
+                - !php/const App\Workflow\OrderStatus::PurchaseSummary
+                - !php/const App\Workflow\OrderStatus::Ordered
+            transitions:
+                !php/const App\Workflow\OrderTransition::ConfirmCart:
+                    from: !php/const App\Workflow\OrderStatus::ShoppingCart
+                    to: !php/const App\Workflow\OrderStatus::DeliveryAddress
+                !php/const App\Workflow\OrderTransition::ConfirmAddress:
+                    from: !php/const App\Workflow\OrderStatus::DeliveryAddress
+                    to: !php/const App\Workflow\OrderStatus::PurchaseSummary
+                !php/const App\Workflow\OrderTransition::FinaliseOrder:
+                    from: !php/const App\Workflow\OrderStatus::PurchaseSummary
+                    to: !php/const App\Workflow\OrderStatus::Ordered
+                !php/const App\Workflow\OrderTransition::RecheckAddress:
+                    from: !php/const App\Workflow\OrderStatus::PurchaseSummary
+                    to: !php/const App\Workflow\OrderStatus::DeliveryAddress
