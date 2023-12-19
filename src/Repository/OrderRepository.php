@@ -28,6 +28,18 @@ class OrderRepository extends ServiceEntityRepository
         return $order;
     }
 
+    public function getActiveOrder(User $user): ?Order
+    {
+        $qb = $this->createQueryBuilder('o');
+        $qb
+            ->where('o.user = :user')
+            ->andWhere('o.status != :ordered')
+            ->setParameter('ordered', OrderStatus::Ordered)
+            ->setParameter('user', $user);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
     public function saveOrder(Order $order): void
     {
         if (!$this->getEntityManager()->contains($order)) {

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Product;
+use App\Exception\ProductNotFound;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -22,5 +23,18 @@ class ProductRepository extends ServiceEntityRepository
     {
         $offset = ($pageNumber - 1) * $pageSize;
         return $this->findBy([], limit: $pageSize, offset: $offset);
+    }
+
+    /**
+     * @throws ProductNotFound
+     */
+    public function getProduct(int $productId): Product
+    {
+        $product = $this->find($productId);
+        if ($product === null) {
+            throw new ProductNotFound();
+        }
+
+        return $product;
     }
 }

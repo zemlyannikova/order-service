@@ -14,4 +14,19 @@ class OrderProductRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, OrderProduct::class);
     }
+
+    public function saveOrderProduct(OrderProduct $orderProduct): void
+    {
+        if (!$this->getEntityManager()->contains($orderProduct)) {
+            $this->getEntityManager()->persist($orderProduct);
+        }
+
+        $this->getEntityManager()->flush();
+    }
+
+    public function deleteOrderProduct(OrderProduct $orderProduct): void
+    {
+        $this->getEntityManager()->remove($orderProduct);
+        $this->getEntityManager()->flush();
+    }
 }
