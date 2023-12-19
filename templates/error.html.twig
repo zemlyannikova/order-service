@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% set products = constant('App\\Controller\\ProductsController::PRODUCTS_ROUTE') %}
+
+    <h2>Etwas ist schief gelaufen</h2>
+
+    <div class="home-link">
+        <a href="{{ path(products) }}">Zurück zur Warenliste</a>
+    </div>
+{% endblock %}
