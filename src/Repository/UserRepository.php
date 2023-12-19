@@ -19,4 +19,13 @@ class UserRepository extends ServiceEntityRepository
     {
         return $this->findOneBy([]);
     }
+
+    public function saveUser(User $user): void
+    {
+        if (!$this->getEntityManager()->contains($user)) {
+            $this->getEntityManager()->persist($user);
+        }
+
+        $this->getEntityManager()->flush();
+    }
 }
