@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% set cart = constant('App\\Controller\\CartController::CART_ROUTE') %}
+    {% set addProduct = constant('App\\Controller\\ProductsController::ADD_PRODUCT_ROUTE') %}
+    {% set removeProduct = constant('App\\Controller\\ProductsController::REMOVE_PRODUCT_ROUTE') %}
+
+    <div class="products">
+        {% for product in products %}
+            <div class="product">
+                <div class="product__content">
+                    <span class="product__title">{{ product.name }}</span>
+                </div>
+                <div class="product__menu">
+                    <form action="{{ path(removeProduct, {productId: product.id}) }}" method="post">
+                        <button class="product__button" type="submit">-</button>
+                    </form>
+                    <div class="product__quantity">{{ quantity(activeOrder, product.id) }}</div>
+                    <form action="{{ path(addProduct, {productId: product.id}) }}" method="post">
+                        <button class="product__button" type="submit">+</button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div>
+        <a href="{{ path(cart) }}">Warencorb anzeigen</a>
+    </div>
+{% endblock %}

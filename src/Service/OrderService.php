@@ -27,6 +27,15 @@ class OrderService
     }
 
     /**
+     * @throws Unauthorised
+     */
+    public function getActiveOrderForCurrentUser(): ?Order
+    {
+        $user = $this->userProvider->getCurrentUser();
+        return $this->orderRepository->getActiveOrder($user);
+    }
+
+    /**
      * @param string[] $validStatuses
      * @throws Unauthorised
      */
