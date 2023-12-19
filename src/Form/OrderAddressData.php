@@ -9,14 +9,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 class OrderAddressData
 {
     #[Assert\NotBlank]
-    private ?string $userName;
+    private ?string $userName = null;
     #[Assert\NotBlank]
-    private ?string $userAddress;
+    private ?string $userAddress = null;
     #[Assert\NotBlank]
-    private ?string $userPhone;
+    private ?string $userPhone = null;
     #[Assert\NotBlank]
-    private ?string $userEmail;
-    private ?string $userTaxNumber;
+    private ?string $userEmail = null;
+    private ?string $userTaxNumber = null;
     private bool $saveAddress = false;
 
     public function getUserName(): ?string
