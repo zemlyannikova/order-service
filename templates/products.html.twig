@@ -1,5 +1,10 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('css/products') }}
+{% endblock %}
+
 {% block body %}
     {% set cart = constant('App\\Controller\\CartController::CART_ROUTE') %}
     {% set addProduct = constant('App\\Controller\\ProductsController::ADD_PRODUCT_ROUTE') %}

@@ -1,0 +1,11 @@
+.order {
+  &__details {
+    margin-bottom: 10px;
+  }
+
+  &__menu {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    grid-gap: 10px;
+  }
+}

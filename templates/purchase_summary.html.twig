@@ -1,5 +1,10 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('css/purchase') }}
+{% endblock %}
+
 {% block body %}
     {% set products = constant('App\\Controller\\ProductsController::PRODUCTS_ROUTE') %}
     {% set finaliseOrder = constant('App\\Controller\\WorkflowController::FINALISE_ORDER_ROUTE') %}
