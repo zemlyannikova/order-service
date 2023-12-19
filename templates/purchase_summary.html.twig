@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% set products = constant('App\\Controller\\ProductsController::PRODUCTS_ROUTE') %}
+    {% set finaliseOrder = constant('App\\Controller\\WorkflowController::FINALISE_ORDER_ROUTE') %}
+    {% set recheckAddress = constant('App\\Controller\\WorkflowController::RECHECK_ADDRESS_ROUTE') %}
+
+    <h2>Bestellung</h2>
+    {% for orderProduct in order.orderProducts %}
+        <div class="order__details">
+            {{ orderProduct.product.name }}: {{ orderProduct.quantity }}
+        </div>
+    {% endfor %}
+
+    <h2>Lieferung Adresse</h2>
+    <div class="order__details">
+        <label>Name:</label>
+        {{ order.userName }}
+    </div>
+    <div class="order__details">
+        <label>Adresse:</label>
+        {{ order.userAddress }}
+    </div>
+    <div class="order__details">
+        <label>Handy Nummer:</label>
+        {{ order.userPhone }}
+    </div>
+    <div class="order__details">
+        <label>Email:</label>
+        {{ order.userEmail }}
+    </div>
+    {% if order.userTaxNumber %}
+        <div class="order__details">
+            <label>Steuernummer:</label>
+            {{ order.userTaxNumber }}
+        </div>
+    {% endif %}
+
+    <div class="order__menu">
+        <div>
+            <form method="post" action="{{ path(recheckAddress, {orderId: order.id}) }}">
+                <button type="submit">Zurück zur Adresse</button>
+            </form>
+        </div>
+        <div>
+            <form method="post" action="{{ path(finaliseOrder, {orderId: order.id}) }}">
+                <button type="submit">Bestellen</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="home-link">
+        <a href="{{ path(products) }}">Zurück zur Warenliste</a>
+    </div>
+{% endblock %}
